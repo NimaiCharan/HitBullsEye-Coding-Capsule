@@ -1,0 +1,145 @@
+TouristProblem Statement:
+Jon is a tourist. He wishes to tour a country with N cities. City K is the capital of the country.Jon doesnt want to miss the fun in the capital of the country.
+The country is represented by N cities. Each city is uniquely connected to every other city. The country is highly developed, so all the cities are connected together.
+Every city i(1 to N) has a rating i.The city with the highest rating is the best.There are N-1 bidirectional roads connecting the cities in the country.Jon wants you to plan his tour in such a way that-
+
+1. He can either tour a city or bypass it.
+2. A city can be toured only once.He cannot come back to this city at any later point of time.
+3. A road can also be travelled only once. He doesnt necessarily plan to travel all roads or all cities.
+4. Jon wants to tour the cities in an increasing order of city ratings. He doesnt want to tour a city which is less beautiful than the previous one he toured.
+5. He will always tour the capital (not necessarily the first city to tour).
+6. Jon wants to tour as many cities as possible in his journey.
+
+Your job is to design a plan such that above conditions are satisfied and output the maximum number of cities that Jon can visit.
+
+Input:
+The first line contains N and K , the number of cities and the city index denoting the capital of the country respectively.
+
+Next N-1 lines contain two values each, u and v denoting there is a road between city u and city v.
+
+Output:
+Print one value maximum number of cities Jon can tour
+
+Constraints:
+1<=N<=1000000
+1<=K<=N
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+6 3
+1 4
+4 6
+3 6
+4 5
+1 2
+
+Output
+3
+
+
+#CODE
+
+
+#include <bits/stdc++.h>
+ 
+using namespace std;
+ 
+#define IOS ios_base::sync_with_stdio(0), cin.tie(0), cout.tie(0)
+#define endl '\n'
+#define ll long long
+ 
+const int N = 1e6 + 5;
+int t[4*N], n, k, dp1[N], dp2[N];
+vector<int> g[N];
+ 
+void update(int node, int start, int end, int idx, int val){
+    if(start > idx || end < idx)return;
+    if(start == end){
+        t[node] = val;
+        return;
+    }
+    int mid = (start + end)/2;
+    update(2*node, start, mid, idx, val);
+    update(2*node + 1, mid + 1, end, idx, val);
+    t[node] = max(t[2*node], t[2*node + 1]);
+}
+ 
+int query(int node, int start, int end, int l, int r){
+    if(start > r || end < l)return 0;
+    if(start >= l && end <= r)return t[node];
+    int mid = (start + end)/2;
+    int p1 = query(2*node, start, mid, l, r);
+    int p2 = query(2*node + 1, mid + 1, end, l, r);
+    return max(p1, p2);
+}
+ 
+void dfs1(int v, int prnt){
+    if(v > k)dp1[v] = query(1, 0, N-1, 0, v-1) + 1;
+    update(1, 0, N -1, v, dp1[v]);
+ 
+    for(int u : g[v])if(u != prnt){
+        dfs1(u, v);
+    }
+ 
+    update(1, 0, N -1, v, 0);
+}
+ 
+void dfs2(int v, int prnt){
+    if(v < k)dp2[v] = query(1, 0, N -1, v + 1, N-1) + 1;
+    update(1, 0, N -1, v, dp2[v]);
+ 
+    for(int u : g[v])if(u != prnt){
+        dfs2(u, v);
+    }
+ 
+    update(1, 0, N - 1, v, 0);
+}
+ 
+void sestaDfs(int v, int prnt){
+ 
+    for(int u : g[v])if(u != prnt){
+        sestaDfs(u, v);
+        dp1[v] = max(dp1[v], dp1[u]);
+        dp2[v] = max(dp2[v], dp2[u]);
+    }
+}
+ 
+int main(){
+    IOS;
+    cin>>n>>k;
+    for(int i=0;i<n-1;++i){
+        int u, v;
+        cin>>u>>v;
+        g[u].push_back(v);
+        g[v].push_back(u);
+    }
+    dfs1(k, -1);
+    dfs2(k, -1);
+ 
+    sestaDfs(k, -1);
+ 
+    int idx1 = 0, idx2 = 0, val1 = 0, val2 = 0, res = 0;
+    for(int i=1;i<g[k].size();++i){
+        int x = g[k][i];
+        if(dp1[x] > dp1[g[k][idx1]] || (dp1[x] == dp1[g[k][idx1]] && dp2[x] < dp2[g[k][idx1] ]))
+            idx1 = i;
+        if(dp2[x] > dp2[g[k][idx2] ] || (dp2[x] == dp2[g[k][idx2] ] && dp1[x] < dp1[g[k][idx2] ]))
+            idx2 = i;
+    }
+ 
+    for(int i=0;i<g[k].size();++i){
+        if(i != idx1)val1 = max(val1, dp2[g[k][i]]);
+        if(i != idx2)val2 = max(val2, dp1[g[k][i]]);
+    }
+ 
+    res = max(val1 + dp1[g[k][idx1] ], val2 + dp2[g[k][idx2] ]) + 1;
+    cout<<res<<endl;
+    return 0;
+}
+
+
+
+
