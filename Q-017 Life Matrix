@@ -1,0 +1,77 @@
+LifeMatrixProblem Statement:
+You are given a matrix of size that contains the digits 0, 1, or 2 only. All the cells that contain 1 and are adjacent to any cell that contains 2 will be converted from 1 to 2, simultaneously in 1 second. Write a program to find the minimum time to convert all the cells having value 1 to 2.
+
+Input:
+First line: Two space-separated integers N and M
+Next N lines: M space-separated integers (denoting the matrix)
+
+Output:
+Print the minimum time to convert all the cells having value 1 to 2.
+
+Constraints:
+1<=N,M<=10^3
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+3 5
+2 1 0 2 1
+1 0 1 2 1
+1 0 0 2 1
+
+Output
+2
+
+Sample I/O Explanation:
+If you start from the cell [1,4] or [3,4] and travels to [2,3] then the cost will be 2 which is maximum of all possible journeys.
+
+#CODE
+
+#your code goes here\
+from collections import deque
+def counter(matrix,next_to_visit,list_1,N,M):
+    counter = 0
+    waiting = deque([1])
+    while waiting:
+        counter += 1
+        waiting = deque()
+        while next_to_visit:
+            i,j = next_to_visit.popleft()
+            for m,n in [(i+1,j),(i,j-1),(i,j+1),(i-1,j)]:
+                if 0<=m<N and 0<=n<M:
+                    if matrix[m][n] == 1:
+                        matrix[m][n] = 2
+                        waiting.append((m,n))
+                        list_1 -= 1
+        next_to_visit = waiting
+    if list_1:
+        return -1
+    return counter-1
+ 
+N,M = map(int,input().split())
+matrix = list()
+next_to_visit = deque()
+list_1 = 0
+for i in range(N):
+    try:
+        matrix.append(list(map(int,input().split())))
+    except EOFError:
+        continue 
+ 
+for i in range(0,N):
+    for j in range(0,M):
+        try:
+            if matrix[i][j] == 2:
+                next_to_visit.append((i,j))
+            elif matrix[i][j] == 1:
+                list_1 += 1
+        except IndexError:
+            pass
+            
+try:
+    print(counter(matrix,next_to_visit,list_1,N,M))
+except IndexError:
+    print(999)
+    
