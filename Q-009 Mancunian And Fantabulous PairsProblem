@@ -1,0 +1,114 @@
+Mancunian And Fantabulous PairsProblem Statement:
+An array of length at least 2 having distinct integers is said to be fantabulous iff the second highest element lies strictly to the left of the highest value. For example, [1, 2, 13, 10, 15] is fantabulous as the second-highest value 13 lies to the left of highest value 15.
+For every fantabulous array, we define a fantabulous pair (a, b) where a denotes the index of the second-highest value (1-indexed) and b denotes the index of the highest value (1-indexed). In the above array, the fantabulous pair is (3, 5).
+Mancunian challenges you to solve the following problem. Given an array, find the total number of distinct fantabulous pairs over all its subarrays.
+
+Input:
+The first line contains an integer N denoting the length of the array. The next line contains N distinct integers denoting the elements of the array.
+
+Output:
+Output a single integer which is the answer to the problem.
+
+Constraints:
+1 <= N <= 106
+1 <= array elements <= 109
+Array elements are distinct.
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+4
+1 3 2 4
+
+Output
+
+3
+
+#CODE
+ #include <bits/stdc++.h>
+using namespace std;
+ 
+#define fill(a,val) memset(a, (val), sizeof a)
+#define pb push_back
+#define lli long long int
+#define scantype int
+#define endl "\n"
+#define unique(x) x.erase(unique(x.begin(),x.end()), x.end())
+ 
+lli MOD  = 1000000007;
+lli inf = 1e15;
+ 
+void scan(scantype &x);
+lli powermod(lli _a,lli _b,lli _m){lli _r=1;while(_b){if(_b%2==1)_r=(_r*_a)%_m;_b/=2;_a=(_a*_a)%_m;}return _r;}
+lli string_to_number(string s){lli x=0; stringstream convert(s); convert>>x; return x;}
+lli add(lli a,lli b){lli x = (a+b)%MOD; return x; }
+lli mul(lli a,lli b){lli x = (a*b)%MOD; return x; }
+lli sub(lli a,lli b){lli x = (a-b+MOD)%MOD; return x; }
+lli divi(lli a,lli b){lli x = a;lli y = powermod(b,MOD-2,MOD);lli res = (x*y)%MOD;return res;}
+ 
+#define N 1000003
+ 
+int main()
+{
+  	int n;
+  	cin>>n;
+ 
+  	int a[n];
+  	for(int i=1;i<=n;i++)
+  		scan(a[i]);
+ 
+  	stack< pair<int,int > > stk;
+ 
+  	stk.push({2e9,0});
+  	stk.push({a[1],1});
+ 
+  	int delta[N];
+  	fill(delta,-1);
+ 
+  	for(int i=2;i<=n;i++)
+  	{
+  		int curr = a[i];
+ 
+  		while(1)
+  		{
+  			pair<int,int> top = stk.top();
+ 
+  			if(top.first > curr) break;
+ 
+  			stk.pop();
+ 
+  			pair<int,int> currTop  = stk.top();
+ 
+  			int increment = top.second - currTop.second - 1;
+  			int diff = i - top.second + 1;
+ 
+  			delta[diff] = max(delta[diff] , increment);
+  		}
+ 
+  		stk.push({curr,i});
+  	}
+ 
+  	lli res = 0;
+ 
+  	for(int i=1;i<=n;i++)
+  	{
+  		if(delta[i]==-1) continue;
+ 
+  		res += (lli)(delta[i] + 1);
+  	}
+ 
+  	cout<<res;
+}
+ 
+void scan(scantype &x)
+{
+    register int c = getchar(); //for negative/positive
+    x = 0;
+    int neg = 0;
+    for(;((c<48 || c>57) && c != '-');c = getchar());
+    if(c=='-') {neg=1;c=getchar();}
+    for(;c>47 && c<58;c = getchar()) {x = (x<<1) + (x<<3) + c - 48;}
+    if(neg) x=-x;
+}
