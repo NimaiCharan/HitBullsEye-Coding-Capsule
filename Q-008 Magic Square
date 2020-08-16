@@ -1,0 +1,62 @@
+Magic SquareProblem Statement:
+Define a magic square to be an nxn matrix of distinct positive integers from 1 to n^2 where the sum of any row, column, or diagonal of length n is always equal to the same number: the magic constant.
+You will be given a 3x3 matrix s of integers in the inclusive range [1,9]. Convert any digit a to any other digit b in the range [1,9] at cost of |a-b| . Given s , convert it into a magic square at minimal cost.
+Print this cost on a new line.
+
+Input:
+Each of the lines contains three space-separated integers of row s[i]
+
+Output:
+Print an integer denoting the minimum cost of turning matrix s into a magic square.
+
+Constraints:
+s[i,j]ɛ[1,9]
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+5 3 4
+1 5 8
+6 4 2
+
+Output
+7
+
+Sample I/O Explanation:
+Convert it to the following magic square: 8 3 4 1 5 9 6 7 2 This took three replacements at a cost of |5-8| + |8-9| +|4-7| =7
+
+#CODE
+#include<bits/stdc++.h>
+#include<iostream>
+ 
+using namespace std;
+ 
+int main()
+{  vector<int>a; int b,min=100;
+  for(int i=0;i<9;i++)
+    {  cin>>b;a.push_back(b);
+ 
+    }
+ vector<vector<int>> data;
+vector<int>c{2,7,6,9,5,1,4,3,8}; data.push_back(c);
+vector<int>c1{6,7,2,1,5,9,8,3,4}; data.push_back(c1);
+vector<int>c2{8,1,6,3,5,7,4,9,2}; data.push_back(c2);
+vector<int>c3{6,1,8,7,5,3,2,9,4}; data.push_back(c3);
+ 
+vector<int>c4{4,9,2,3,5,7,8,1,6}; data.push_back(c4);
+vector<int>c5{2,9,4,7,5,3,6,1,8}; data.push_back(c5);
+ 
+vector<int>c6{8,3,4,1,5,9,6,7,2}; data.push_back(c6);
+vector<int>c7{4,3,8,9,5,1,2,7,6}; data.push_back(c7);
+for(int i=0;i<8;i++)
+{    int s=0;
+     for(int j=0;j<9;j++)
+      { s+= abs(data[i][j]-a[j]); }
+      if(min>s)
+       min=s;
+ 
+}
+cout<<min;
+}
