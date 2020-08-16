@@ -38,3 +38,15 @@ Output
 #CODE
 One Test Case Failed
 
+def find(arr, n):
+    l1 = [v-i for i, v in enumerate(arr)]
+    l2 = [v+i for i, v in enumerate(arr)]
+    return max(max(l1) - min(l1), max(l2) - min(l2))
+ 
+if __name__ == "__main__":
+    for i in range(int(input())):
+        n = int(input())
+        l = list(map(int, input().split()))
+ 
+        print(find(l, n))
+
