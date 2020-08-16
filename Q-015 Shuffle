@@ -1,0 +1,54 @@
+ShuffleProblem Statement:
+Subhash has an array A=[1, 2, 3 ... N] and a permutation P of A. In one operation he "permutes" A with respect to P (ie. all elements A[i] change simultaneoulsy to A[P[i]] in one operation. 1<=i<=N). Subhash wants to know the minimum number of operations he needs to apply to get back the original array A=[1, 2, 3 ... N]. Since the answer can be large, output the answer modulo 109+7.
+
+Note : Subhash needs to apply the operation at least once.
+
+Input:
+The first line contains a single integer N. The second line contains N space seperated integers denoting the permutation P.
+
+Output:
+Output a single inetger the answer to the given problem.
+
+Constraints:
+1 <= N <= 2*105
+
+1 <= Pi <= N. All Pi are distinct.
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+3
+2 3 1
+
+Output
+3
+
+Sample I/O Explanation:
+
+Initially A=[1, 2, 3] and P=[2, 3, 1]. After 1st operation A becomes [2, 3, 1]. After 2nd operation A becomes [3, 1, 2]. After 3nd operation A becomes [1, 2, 3]. Hence the answer is 3.
+
+#CODE
+One Test case Failed
+
+#include <bits/stdc++.h>
+using namespace std;
+int fact(int n) {
+   if (n == 0 || n == 1)
+   return 1;
+   else
+   return n * fact(n - 1);
+}
+int main() {
+   int n, r=1, result,num;
+   std::vector<int> arr;
+   cin>>n;
+   for(int i=0;i<n;i++){
+       cin>>num;
+       arr.push_back(num);
+   }
+   result = fact(n) / (fact(r) * fact(n-r));
+   cout  << result;
+   return 0;
+}
