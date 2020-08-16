@@ -1,0 +1,40 @@
+Can you solve it ?Problem Statement:
+Raman loves Mathematics a lot. One day his maths teacher gave him an interesting problem.
+
+He was given an array 'A' consisting of 'n' integers, he was needed to find the maximum value of the following expression:
+
+|Ai - Aj| + |i - j|
+
+where, 0<= i,j
+
+Input:
+First line of input contains an integer T denoting number of test cases.
+Each test case contains two lines, first line contains integer n where n is the number of elements in array
+Second line contains n space separated integers Ai.
+
+Output:
+Print the maximum value of the above give expression, for each test case separated in a new line.
+
+Constraints:
+1<=T<=100
+1<=n<=105
+0<=Ai<=105
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+2
+3
+1 1 1
+4
+1 2 3 1
+
+Output
+2
+4
+
+#CODE
+One Test Case Failed
+
