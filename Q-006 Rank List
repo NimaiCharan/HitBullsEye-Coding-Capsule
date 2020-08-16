@@ -1,0 +1,124 @@
+Rank ListProblem Statement:
+Mid sem marks of a particular subject is announced , since you are curious in knowing your position in class so you decided to make a rank list . You are given the name , scholoar number and marks of every student in your class. You have to come up with accurate rank list i.e student having maximum marks at the top and if two students are having same marks then the student having lexicographically smaller name comes first , if both name and marks of the student collide then student having smaller scholar number comes first.
+
+Input:
+First line of input contains N - Total number of students in class
+Next N line contains name of student , scholar number and marks scored in exam
+
+Output:
+Print the ranklist of students as explained above.
+
+Constraints:
+1 <= N <= 1000
+1 <= length of name <= 10
+1 <= scholar number <= 1000
+0 <= marks <= 30
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+5
+arun 8 28
+harshit 10 30
+surya 7 26
+satyam 27 6
+arun 1 28
+
+Output
+harshit 10 30
+arun 1 28
+arun 8 28
+surya 7 26
+
+satyam 27 6
+
+
+#CODE
+
+#include<iostream>
+#include<vector>
+#include<string>
+using namespace std;
+ 
+struct stuDetails
+{
+	string name;
+	int rank;
+	int score;
+ 
+	bool operator > (stuDetails&a)
+	{
+		if (score > a.score)
+		{
+			return true;
+		}
+		else if ((score == a.score) && name.compare(a.name) < 0)
+		{
+			return true;
+		}
+		else if ((score == a.score) && name.compare(a.name) == 0 && rank < a.rank)
+		{
+			return true;
+		}
+		return false;
+	}
+};
+ 
+void swap(stuDetails &a, stuDetails &b)
+{
+	stuDetails temp = a;
+	a = b;
+	b = temp;
+}
+ 
+int partition(vector<stuDetails> &arr, stuDetails pivot, int start, int end)
+{
+	int index = start;
+	for (int i = start; i < end; i++)
+	{
+		stuDetails num = arr[i];
+		if ( (arr[i]) > pivot)
+		{
+			swap(arr[index], arr[i]);
+			++index;
+		}
+	}
+	swap(arr[index], arr[end]);
+	return index;
+}
+ 
+ 
+void QucikSort(vector<stuDetails>&arr, int start, int end)
+{
+	if (start < end)
+	{
+		stuDetails pivot = arr[end];
+		int index = partition(arr, pivot, start, end);
+		QucikSort(arr, start, index - 1);
+		QucikSort(arr, index + 1, end);
+	}
+}
+ 
+int main()
+{
+	int N;
+	cin >> N;
+	vector<stuDetails> vec(N);
+ 
+	for (int i = 0; i < N; i++)
+	{
+		cin >> vec[i].name >> vec[i].rank>> vec[i].score;
+	}
+ 
+	QucikSort(vec, 0, N - 1);
+ 
+	for (int i = 0; i < N; i++)
+	{
+		cout << vec[i].name << " " << vec[i].rank << " " << vec[i].score << endl;
+	}
+ 
+	cin.get();
+	return 0;
+}
