@@ -1,0 +1,84 @@
+Balanced Strings
+Problem Statement:
+Sohan got bored playing with the arrays all the time. Therefore he has decided to buy a string S consists of N lower case alphabets. Once he purchased the string, He starts formulating his own terminologies over his string S. Chandan calls a string str A Balanced String if and only if the characters of the string str can be paritioned into two multisets M1 and M2 such that M1= M2 .
+For eg:
+
+Strings like "abccba" , "abaccb" , "aabbcc" are all balanced strings as their characters can be partitioned in the two multisets M1 and M2 such that M1 = M2.
+
+M1 = {a,b,c}
+
+M2 = {c,b,a}
+
+whereas strings like ababab , abcabb are not balanced at all.
+
+Sohan wonders how many substrings of his string S are Balanced String ? Chandan is a little guy and do not know how to calculate the count of such substrings.
+
+Can you help him in accomplishing this task ?
+
+Input:
+First line of input contains a single integer T denoting the number of test cases. First and the only line of each test case contains a string consists of lower case alphabets only denoting string S .
+
+Output:
+For each test case, print the count of Balanced Substrings of string S.
+
+Constraints:
+1 ≤ T ≤ 105
+
+1 ≤ |S| ≤ 105
+
+S consists of lower case alphabets only.
+
+Time Limit:
+1 sec
+
+Example 1:
+Input
+2
+aabb
+abccba
+
+Output
+3
+3
+
+#CODE
+#One Test Case Failed
+#include <bits/stdc++.h>
+using namespace std ;
+#define MAXN 100010
+#define LL long long int 
+int T,N;
+char str[MAXN] ;
+vector<int> A ;
+int main(){
+	scanf("%d",&T) ;
+	assert(T >= 1 && T <= 100000) ;
+	while(T--){
+		scanf("%s",str+1) ;
+		N = strlen(str+1) ;
+		assert(N >= 1 && N <= 100000) ;
+		int val = 0 ;
+		A.push_back(val) ;
+		for(int i=N ; i >= 1 ; i--){
+			int bit = str[i]-'a' ;
+			val = val ^ (1 << bit) ;
+			A.push_back(val) ;	
+		}
+		sort(A.begin(),A.end()) ;
+		int i = 0;
+		LL ans = 0;		
+		while(i<=N){
+			val = A[i] ;
+			LL cnt = 0;
+			while(i<=N && val == A[i]){
+				cnt ++ ;
+				i ++ ;
+			}
+			ans = ans + (cnt*(cnt-1))/2 ;
+		}
+		printf("%lld\n",ans) ;
+		A.clear() ;
+	}
+	return 0;
+}
+
