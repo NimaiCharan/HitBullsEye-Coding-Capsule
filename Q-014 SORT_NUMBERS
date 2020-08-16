@@ -1,0 +1,27 @@
+SORT_NUMBERSProblem Statement:
+Sort the given list of numbers in 'descending' order
+
+Input:
+1st line: N(no. of integers to be sorted)
+2nd line: N integers
+
+Output:
+sorted N integers in N lines
+
+Constraints:
+N<=10000
+0 <= A[i] <= 100000
+
+Time Limit:
+1 sec
+
+#Code
+
+#your code goes here
+arr=[]
+num=int(input())
+for i in range(num):
+    arr.append(int(input()))
+arr.sort(reverse = True)
+for i in arr:
+    print(i)
